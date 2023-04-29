@@ -3,16 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Sunflower
+  - Caterpillar
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Sunflower
   - Water
   - UI
-  - 
-  - 
+  - Caterpillar
+  - Tilemap
   - 
   - 
   - 
