@@ -63,11 +63,9 @@ public class SpawnSystem : MonoBehaviour
     }
 
     private IEnumerator CoroutineSpawner(float time){
-        int i = 0;
         while(isSpawn){
-            i++;
-            if(i >= enemys.Count) i = 0;
-            enemys[i].SetActive(true);
+            int randomIndex = Random.Range(0, enemys.Count);    
+            enemys[randomIndex].SetActive(true);
             yield return new WaitForSeconds(time);
         }
     }

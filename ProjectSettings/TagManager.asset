@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sunflower
   - Caterpillar
+  - Spawn
   layers:
   - Default
   - TransparentFX

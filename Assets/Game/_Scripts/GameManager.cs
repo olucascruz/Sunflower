@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private SpawnSystem spawnSystem;
     private int enemiesDead = 0;
     [SerializeField] private TextMeshProUGUI enemiesDeadText;
+    [SerializeField] private GameObject evolution;
+
     
     private void Awake(){
         if (instance == null){
@@ -46,5 +48,9 @@ public class GameManager : MonoBehaviour
 
             spawnSystem.Spawner(0.5f);
         }
+
+        if(gameState == GameState.GAMEOVER){
+            evolution.SetActive(true);
+        }   
     }
 }

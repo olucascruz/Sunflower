@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Sunflower : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private int life = 5;
+    public int Life{
+        get {return life;}
+    }
+    private bool canTakeDamage = true;
+    public static Sunflower instance;    
+    
+    void Awake(){
+        if (instance == null){
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public void TakeDamage(){
+        if(canTakeDamage){
+            life--;
+            StartCoroutine(DelayDamage());
+        }
+    }
+
+    private IEnumerator DelayDamage(){
         
+        canTakeDamage = false;
+        yield return new WaitForSeconds(2f);
+        canTakeDamage = true;
     }
 }
