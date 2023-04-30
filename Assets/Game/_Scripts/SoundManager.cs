@@ -10,7 +10,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource button;
     [SerializeField] private AudioSource smashBug;
 
-
+    public static SoundManager instance;
+    
+    private void Awake(){
+        if (instance == null){
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
    
     
     private void Start()

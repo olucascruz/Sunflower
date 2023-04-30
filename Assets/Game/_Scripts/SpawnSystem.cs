@@ -7,10 +7,10 @@ public class SpawnSystem : MonoBehaviour
     public static SpawnSystem instance;
     [SerializeField] private GameObject prefab;
     [SerializeField] private int maxEnemys;
-    [SerializeField] private string dir;
+    [SerializeField] private Transform[] spawn;
 
     public List<GameObject> enemys;
-
+    private bool isSpawn = false;
     void Awake(){
         if (instance == null){
             instance = this;
@@ -28,7 +28,16 @@ public class SpawnSystem : MonoBehaviour
 
     private IEnumerator InitialInstanciete(){
         for(int i = 0; i< maxEnemys; i++){
-            GameObject enemy = Instantiate(prefab, transform.position, Quaternion.identity);
+            int index = 0;
+            if(i < maxEnemys/2){
+                index = 0;
+            }else{
+                index = 1;
+            }
+
+            GameObject enemy = Instantiate(prefab, spawn[index].position, Quaternion.identity);
+
+
             enemy.SetActive(false);
             enemys.Add(enemy);
             yield return new WaitForSeconds(0.05f);
@@ -36,19 +45,29 @@ public class SpawnSystem : MonoBehaviour
 
     }
 
-    public void Spawner(int max, float time){
+    public void Spawner(float time){
         if(enemys.Count == maxEnemys){
-            StartCoroutine(CoroutineSpawner(max, time));
+            if(isSpawn == false){
+            isSpawn = true;
+            StartCoroutine(CoroutineSpawner(time));
+            }
         }
     } 
+    
+    public void StopSpawner(){
+        isSpawn = false;
+        foreach (var i in enemys)
+        {
+            i.SetActive(false);
+        }
+    }
 
-    private IEnumerator CoroutineSpawner(int max, float time){
-        if(max >= enemys.Count) max = enemys.Count; 
-        for(int i = 0; i < max; i++){
+    private IEnumerator CoroutineSpawner(float time){
+        int i = 0;
+        while(isSpawn){
+            i++;
+            if(i >= enemys.Count) i = 0;
             enemys[i].SetActive(true);
-            if(dir == "right"){
-                enemys[i].transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
             yield return new WaitForSeconds(time);
         }
     }
