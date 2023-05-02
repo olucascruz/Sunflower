@@ -33,7 +33,8 @@ public class Caterpillar : MonoBehaviour
     }
 
     void Update()
-    {   
+    {  
+        if(!sunflower && !sunflowerTrans) return;
         if (transform.position.x < sunflowerTrans.position.x)
         {
                 transform.rotation = Quaternion.Euler(0, 0, 0); // olhar para a direita
@@ -48,7 +49,6 @@ public class Caterpillar : MonoBehaviour
         Ray2D ray = new Ray2D(transform.position, transform.right);
 
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, raycastDistance, sunflowerLayer);
-
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.red);
 
         if(gameManager.gameState == GameManager.GameState.PLAY){
@@ -56,7 +56,7 @@ public class Caterpillar : MonoBehaviour
             {
                 transform.position = Vector2.MoveTowards(transform.position, sunflowerTrans.position, speed * Time.deltaTime);
             }else{
-                if(!eating){
+                if(!eating && hit && !dead){
                     eating = true;
                     StartCoroutine(isEating());
                     }
@@ -74,7 +74,12 @@ public class Caterpillar : MonoBehaviour
 
     void OnEnable(){
         if(anim){
+            eating = false;
             anim.SetBool("Dead", false);
+            int randomVelocity = Random.Range(1, 5);
+            speed = randomVelocity;
+            int randomPoint = Random.Range(0, 2);
+            transform.position = pointSpawns[randomPoint].transform.position;
         }
     }
 
@@ -92,8 +97,7 @@ public class Caterpillar : MonoBehaviour
         yield return new WaitForSeconds(1f);
         dead = false;
         gameManager.EnemyDead();
-        int randomPoint = Random.Range(0, 2);
-        transform.position = pointSpawns[randomPoint].transform.position;
         gameObject.SetActive(false);
     }
+    
 }

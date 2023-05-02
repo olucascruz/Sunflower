@@ -7,6 +7,7 @@ TagManager:
   - Sunflower
   - Caterpillar
   - Spawn
+  - Root
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - UI
   - Caterpillar
   - Tilemap
-  - 
+  - Root
   - 
   - 
   - 

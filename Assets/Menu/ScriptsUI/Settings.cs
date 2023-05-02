@@ -10,8 +10,11 @@ public class Settings : MonoBehaviour
     
     [SerializeField] private OptionsValues optionsValues;
     [SerializeField] private Slider slider;
+
+
     void Start()
     {   
+        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);   
         slider.value = optionsValues.volume;
     }
 
