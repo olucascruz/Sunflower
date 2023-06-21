@@ -9,6 +9,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource backgroundGame;
     [SerializeField] private AudioSource button;
     [SerializeField] private AudioSource smashBug;
+    [SerializeField] private AudioSource growSunflowerSound;
+
 
     public static SoundManager instance;
     
@@ -34,5 +36,9 @@ public class SoundManager : MonoBehaviour
 
     public void SmashBug(){
         smashBug.Play();
+    }
+
+    public void PlayGrowSunflowerSound(){
+        growSunflowerSound.Play();
     }
 }

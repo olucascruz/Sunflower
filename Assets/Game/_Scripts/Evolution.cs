@@ -19,11 +19,13 @@ public class Evolution : MonoBehaviour
 
     private Sunflower sunflower;
     private GameManager gameManager;
+    private SoundManager soundManager;
     private int priceSunflowerGrow = 0;
    
     void Start(){
         sunflower = Sunflower.instance;
         gameManager = GameManager.instance;
+        soundManager = SoundManager.instance;
     }
     void OnEnable(){
         ModalLeft();
@@ -84,6 +86,7 @@ public class Evolution : MonoBehaviour
     public void ClickModalMid(){
         if(gameManager.EnemiesDead < priceSunflowerGrow) return;
         sunflower.GrowSunflower();
+        soundManager.PlayGrowSunflowerSound();
         ClickReset();
     }
 
