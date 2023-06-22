@@ -19,6 +19,7 @@ public class Caterpillar : MonoBehaviour
     private SoundManager soundManager;
     private GameObject[] pointSpawns;
     private Sunflower sunflower;
+    private bool isForceLose = false;
     
     void Start()
     {   
@@ -54,6 +55,10 @@ public class Caterpillar : MonoBehaviour
         if(gameManager.gameState == GameManager.GameState.PLAY){
             if (distance > 0.5f && !dead && !hit)
             {
+                if(sunflower.Grow == 0 && gameManager.EnemiesDead == 50 && !isForceLose){
+                    speed = speed * 3;
+                    isForceLose = true;
+                }
                 transform.position = Vector2.MoveTowards(transform.position, sunflowerTrans.position, speed * Time.deltaTime);
             }else{
                 if(!eating && hit && !dead){
@@ -76,21 +81,19 @@ public class Caterpillar : MonoBehaviour
         if(anim){
             eating = false;
             anim.SetBool("Dead", false);
-            int randomVelocity = Random.Range(1, 5);
+            int randomVelocity = Random.Range(2, 6);
             speed = randomVelocity;
             int randomPoint = Random.Range(0, 2);
             transform.position = pointSpawns[randomPoint].transform.position;
+            speed = speed + (sunflower.Grow * 0.5f);
         }
     }
 
     void OnMouseDown()
     {
-        if(gameManager.gameState == GameManager.GameState.PLAY){
-            dead = true;
-            soundManager.SmashBug();
-            anim.SetBool("Dead", true);
-            StartCoroutine(Desactive());
-        }
+        if(Application.isMobilePlatform)return;
+
+        Dead();
     }
 
     IEnumerator Desactive(){
@@ -98,6 +101,15 @@ public class Caterpillar : MonoBehaviour
         dead = false;
         gameManager.EnemyDead();
         gameObject.SetActive(false);
+    }
+
+    public void Dead(){
+        if(gameManager.gameState == GameManager.GameState.PLAY){
+            dead = true;
+            soundManager.SmashBug();
+            anim.SetBool("Dead", true);
+            StartCoroutine(Desactive());
+        }
     }
     
 }
